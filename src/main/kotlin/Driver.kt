@@ -11,4 +11,4 @@ class Driver(name: String, startSpeed: Float, moveVector2: Vector2) : Human(name
     {
         println("🛻${fullName}${if (iteration != null) " ${iteration}" else ""}: ${currentPosition.ToString()}")
     }
-}
+}  // оставлю Driver как наследник от Human, хотя можно было бы сделать его как "реализация интерфейса Movable"

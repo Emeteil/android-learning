@@ -141,3 +141,65 @@ var peoples: Array<Human> = arrayOf(
 *Также разделил код на несколько файлы, для удобства*
 
 ---
+
+# 3. Интерфейсы
+
+## Введение интерфейса Movable
+
+### Базовый интерфейс для движущихся объектов
+```kotlin
+interface Movable
+{
+    val currentPosition: Point
+    val currentMoveVector2: Vector2
+    val currentSpeed: Float
+
+    fun RandomizeMoveVector()
+    fun Move()
+    fun Print(iteration: Int? = null)
+}
+```
+
+## Ключевые изменения в архитектуре
+
+### 1. Универсальная коллекция объектов
+```kotlin
+var peoples: MutableList<Movable> = mutableListOf(
+    Human("Я", 19, 433, 1f),
+    Human("Петя", 20, 123, 1f),
+    Human("Ваня", 20, 867, 1f),
+    Driver("Таксист Олег", 2f, Vector2(1f, 0f))
+)
+```
+- **Array<Human> → MutableList<Movable>** - универсальный список для любых Movable объектов
+- Система теперь поддерживает любые типы движущихся объектов, реализующих интерфейс Movable
+
+### 2. Реализация интерфейса в классах
+```kotlin
+open class Human(fullName: String, age: Int, groupNumber: Int, startSpeed: Float) : Movable
+```
+- Класс Human теперь явно реализует интерфейс Movable
+- Свойства движения помечены как `override`
+
+### 3. Архитектурное решение наследования
+```kotlin
+class Driver(name: String, startSpeed: Float, moveVector2: Vector2) : Human(name, 0, 0, startSpeed)
+```
+- **Driver остался наследником Human**, хотя мог быть независимой реализацией Movable
+- Сохранена логическая связь "Водитель → Человек" для повторного использования функциональности
+
+### 4. Многофайловая структура
+```
+src/main/kotlin/
+├── Main.kt
+├── Movable.kt # Интерфейс Movable
+├── Human.kt
+├── Driver.kt
+├── Point.kt
+└── Vector2.kt
+```
+- Добавлен новый файл Movable.kt с интерфейсом Movable
+
+*Так как разделение остальной логики на файлы было сделалано в прошлой лабораторной, в этой особых изменений не произошло*
+
+---

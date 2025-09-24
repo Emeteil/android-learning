@@ -2,12 +2,12 @@ fun main()
 {
     val THREAD_COUNT = 4 // я решил сделать ограничение количество потоков, в одном потоке до нескольких обработчиков движения (если понадобится можно сделать THREAD_COUNT = peoples.size)
 
-    var peoples: Array<Human> = arrayOf(
+    var peoples: MutableList<Movable> = mutableListOf( // Array<Human> -> MutableList<Movable> (Получается универсальный список для любых Movable объектов)
         Human("Я", 19, 433, 1f),
         Human("Петя", 20, 123, 1f),
         Human("Ваня", 20, 867, 1f),
         Driver("Таксист Олег", 2f, Vector2(1f, 0f)), // для примера машина будет ехать в 2 раза быстрее человека и прямолинейно по оси x
-    ) // TODO: сделать MutableList для изменяймости в будущем
+    )
 
     val threads: MutableList<Thread> = mutableListOf<Thread>()
     var isRunningThreads: Boolean = true

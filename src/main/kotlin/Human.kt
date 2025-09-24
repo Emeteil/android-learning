@@ -3,7 +3,7 @@ import java.util.concurrent.locks.ReentrantLock
 
 import kotlin.random.Random
 
-open class Human(fullName: String, age: Int, groupNumber: Int, startSpeed: Float)
+open class Human(fullName: String, age: Int, groupNumber: Int, startSpeed: Float) : Movable
 {
     val mutex: ReentrantLock = ReentrantLock() // для каждого экземпляра будет свой мьютекс
 
@@ -35,7 +35,7 @@ open class Human(fullName: String, age: Int, groupNumber: Int, startSpeed: Float
             finally { mutex.unlock() }
         }
 
-    var currentSpeed: Float = 0.0f
+    override var currentSpeed: Float = 0.0f
         get() { return field }
         protected set(value)
         {
@@ -43,7 +43,7 @@ open class Human(fullName: String, age: Int, groupNumber: Int, startSpeed: Float
             try { field = value }
             finally { mutex.unlock() }
         }
-    var currentPosition: Point = Point(0f, 0f)
+    override var currentPosition: Point = Point(0f, 0f)
         get() { return field }
         protected set(value)
         {
@@ -51,7 +51,7 @@ open class Human(fullName: String, age: Int, groupNumber: Int, startSpeed: Float
             try { field = value }
             finally { mutex.unlock() }
         }
-    var currentMoveVector2: Vector2 = Vector2(0f, 0f)
+    override var currentMoveVector2: Vector2 = Vector2(0f, 0f)
         get() { return field }
         protected set(value)
         {
@@ -72,21 +72,20 @@ open class Human(fullName: String, age: Int, groupNumber: Int, startSpeed: Float
         this.currentSpeed = startSpeed
     }
 
-    open fun RandomizeMoveVector()
+    override fun RandomizeMoveVector()
     {
         // тут мьютекс необязателен, я его убрал
         currentMoveVector2.x = Random.nextFloat() * 2 - 1
         currentMoveVector2.y = Random.nextFloat() * 2 - 1
     }
 
-    fun Move()
+    override fun Move()
     {
         // тут тоже необязателенм, я сделал классы Point и Vector2 потокозащищёнными!
         currentPosition.AddVector2(currentMoveVector2, currentSpeed)
     }
 
-    // TODO: не забыть убрать iteration в будущем
-    open fun Print(iteration: Int? = null) // счётчик итераций для нескольких потоков. Int? - nullable reference types(не знаю как он правильно называется в kotlin, но C# точно так)
+    override fun Print(iteration: Int?) // счётчик итераций для нескольких потоков. Int? - nullable reference types(не знаю как он правильно называется в kotlin, но C# точно так)
     {
         println("🏃${fullName}${if (iteration != null) " ${iteration}" else ""}: ${currentPosition.ToString()}")
     }
