@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CalcButton" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_rowWeight">1</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/button_background</item>
+        <item name="android:backgroundTint">@null</item>
+    </style>
+
+    <style name="CalcButton.Number" parent="CalcButton">
+        <item name="android:textColor">@color/digit_text</item>
+    </style>
+
+    <style name="CalcButton.Operator" parent="CalcButton">
+        <item name="android:textColor">@color/operation_text</item>
+    </style>
+
+    <style name="CalcButton.Function" parent="CalcButton">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/func_text</item>
+    </style>
+
+    <style name="CalcButton.BracketButton" parent="CalcButton">
+        <item name="android:textColor">@color/bracket_text</item>
+    </style>
+
+    <style name="CalcButton.ClearButton" parent="CalcButton">
+        <item name="android:textColor">@color/clear_text</item>
+    </style>
+
+    <style name="CalcButton.Equals" parent="CalcButton">
+        <item name="android:textColor">@color/equals_text</item>
+    </style>
+</resources>

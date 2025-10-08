@@ -1,0 +1,45 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Androidproject" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#ff9500</item>
+        <item name="colorPrimaryVariant">#cc7700</item>
+    </style>
+
+    <style name="Button.digit_button" parent="ThemeOverlay.AppCompat">
+        <item name="colorAccent">@color/digit_button</item>
+        <item name="colorPrimary">@color/digit_button</item>
+        <item name="colorPrimaryVariant">@color/digit_button</item>
+    </style>
+
+    <style name="Button.operation_button" parent="ThemeOverlay.AppCompat">
+        <item name="colorAccent">@color/operation_button</item>
+        <item name="colorPrimary">@color/operation_button</item>
+        <item name="colorPrimaryVariant">@color/operation_button</item>
+    </style>
+
+    <style name="Button.func_button" parent="ThemeOverlay.AppCompat">
+        <item name="colorAccent">@color/func_button</item>
+        <item name="colorPrimary">@color/func_button</item>
+        <item name="colorPrimaryVariant">@color/func_button</item>
+    </style>
+
+    <style name="Button.clear_button" parent="ThemeOverlay.AppCompat">
+        <item name="colorAccent">@color/clear_button</item>
+        <item name="colorPrimary">@color/clear_button</item>
+        <item name="colorPrimaryVariant">@color/clear_button</item>
+    </style>
+
+    <style name="Button.bracket_button" parent="ThemeOverlay.AppCompat">
+        <item name="colorAccent">@color/bracket_button</item>
+        <item name="colorPrimary">@color/bracket_button</item>
+        <item name="colorPrimaryVariant">@color/bracket_button</item>
+    </style>
+
+    <style name="Button.equals_button" parent="ThemeOverlay.AppCompat">
+        <item name="colorAccent">@color/equals_button</item>
+        <item name="colorPrimary">@color/equals_button</item>
+        <item name="colorPrimaryVariant">@color/equals_button</item>
+    </style>
+
+    <style name="Theme.Androidproject" parent="Base.Theme.Androidproject" />
+</resources>
