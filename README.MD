@@ -263,7 +263,7 @@ private fun ShuntingYard(tokens: List<String>): List<String>
 - Создание RPN
 - Учет приоритетов операторов и скобок
 - Обработка математических функций
-*[Реализация тут](https://habr.com/ru/articles/273253)*
+- *[Реализация алгоритма тут](https://habr.com/ru/articles/273253)*
 
 #### Вычисление RPN
 ```kotlin
