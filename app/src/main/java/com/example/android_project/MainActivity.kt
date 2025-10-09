@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import kotlin.math.abs
 import kotlin.math.round
 
 class MainActivity : AppCompatActivity()
@@ -141,7 +142,7 @@ class MainActivity : AppCompatActivity()
             return
         }
 
-        UpdateInputField((if (result % 1 <= 1e-15) result.toLong() else round(result * 10e15) / 10e15).toString())
+        UpdateInputField((if (abs(result) % 1 <= 1e-15) result.toLong() else round(result * 10e15) / 10e15).toString())
         currentExpression = ""
     }
 }
