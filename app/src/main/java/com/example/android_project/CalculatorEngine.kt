@@ -34,8 +34,7 @@ class CalculatorEngine
 
     public fun CalculateExpression(expression: String): Double
     {
-        val cleanedExpression = expression.replace("\\s".toRegex(), "") // удаление пробелов
-        val tokens = Tokenize(cleanedExpression)
+        val tokens = Tokenize(expression)
         val rpn = ShuntingYard(tokens)
         return EvaluateRPN(rpn)
     }

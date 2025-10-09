@@ -50,7 +50,7 @@
                 android:columnCount="4"
                 android:rowCount="7">
 
-            <!-- 1 row - Math Functions -->
+            <!-- 1 row -->
             <Button
                 android:id="@+id/buttonSin"
                 style="@style/CalcButton.Function"

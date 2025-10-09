@@ -128,7 +128,7 @@ class MainActivity : AppCompatActivity()
             currentExpression = ""
             return
         }
-        if (currentExpression.last() in arrayOf('+', '-', '*', '/', '^', '.')) return
+        if (currentExpression.last() in arrayOf('+', '-', '*', '/', '^', '.', '(')) return
 
         var result: Double;
         try
