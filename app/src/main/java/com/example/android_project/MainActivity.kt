@@ -17,6 +17,6 @@ class MainActivity : AppCompatActivity()
         findViewById<CardView>(R.id.calculatorCard).setOnClickListener({
             startActivity(Intent(this, CalculatorActivity::class.java))
         })
-        findViewById<CardView>(R.id.videoPlayerCard).setOnClickListener({ })
+        findViewById<CardView>(R.id.mediaPlayerCard).setOnClickListener({ })
     }
 }
