@@ -17,6 +17,12 @@
         <item name="colorPrimaryVariant">@color/operation_button</item>
     </style>
 
+    <style name="Button.back_button" parent="ThemeOverlay.AppCompat">
+        <item name="colorAccent">@color/clear_button</item>
+        <item name="colorPrimary">@color/clear_button</item>
+        <item name="colorPrimaryVariant">@color/clear_button</item>
+    </style>
+
     <style name="Button.func_button" parent="ThemeOverlay.AppCompat">
         <item name="colorAccent">@color/func_button</item>
         <item name="colorPrimary">@color/func_button</item>

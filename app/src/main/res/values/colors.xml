@@ -5,12 +5,16 @@
     <color name="backgroundDisplay">#2A2A2A</color>
     <color name="outlineDisplay">#3A3A3A</color>
     <color name="backgroundApp">#1F1F1F</color>
+    <color name="backgroundText">#FFFFFFFF</color>
 
     <color name="digit_button">#37474F</color>
     <color name="digit_text">#ECEFF1</color>
 
     <color name="operation_button">#7E57C2</color>
     <color name="operation_text">#FFFFFF</color>
+
+    <color name="back_button">#FF0000</color>
+    <color name="back_text">#FFFFFF</color>
 
     <color name="func_button">#5E35B1</color>
     <color name="func_text">#FFFFFF</color>
