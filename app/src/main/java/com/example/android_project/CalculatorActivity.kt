@@ -54,7 +54,7 @@ class CalculatorActivity : AppCompatActivity()
         // findViewById<TextView>(R.id.buttonPower).setOnClickListener({ AddToken("^") })
 
         findViewById<TextView>(R.id.buttonBack).setOnClickListener({
-            startActivity(Intent(this, MainActivity::class.java))
+            finish()
         })
 
         findViewById<TextView>(R.id.buttonBracketOpen).setOnClickListener({ AddToken("(") })
