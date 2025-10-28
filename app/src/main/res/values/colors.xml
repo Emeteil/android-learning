@@ -27,4 +27,10 @@
 
     <color name="equals_button">#66BB6A</color>
     <color name="equals_text">#FFFFFF</color>
+
+    <color name="background">#1F1F1F</color>
+    <color name="onSurface">#FFFFFF</color>
+    <color name="onSurfaceVariant">#BBBBBB</color>
+    <color name="primary">#BB86FC</color>
+    <color name="progress_background">#666666</color>
 </resources>

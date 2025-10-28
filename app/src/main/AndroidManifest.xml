@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Androidproject">
         <activity
+            android:name=".MediaPlayerActivity"
+            android:exported="false" />
+        <activity
             android:name=".CalculatorActivity"
             android:exported="false" />
         <activity
