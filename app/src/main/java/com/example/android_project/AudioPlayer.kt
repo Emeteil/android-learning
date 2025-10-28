@@ -23,7 +23,7 @@ class AudioPlayer(private val context: Context)
         var _musicList: MutableList<Uri> = mutableListOf()
         val folder = DocumentFile.fromTreeUri(context, folderUri)
         folder?.listFiles()?.forEach { file ->
-            if (file.isFile && (file.name?.endsWith(".mp3") == true || file.name?.endsWith(".wav") == true || file.name?.endsWith(".m4a") == true))
+            if (file.isFile && (file.name?.endsWith(".mp3") == true || file.name?.endsWith(".wav") == true || file.name?.endsWith(".flac") == true))
             {
                 _musicList.add(file.uri)
             }
