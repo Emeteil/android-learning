@@ -87,7 +87,7 @@ class MediaPlayerActivity : AppCompatActivity()
         }
 
         buttonPlay.setOnClickListener {
-            if (!audioPlayer.IsPlaying())
+            if (audioPlayer.IsMediaPlayerReady() && !audioPlayer.IsPlaying())
             {
                 audioPlayer.ResumeSong()
                 buttonPlay.setImageResource(R.drawable.ic_pause)

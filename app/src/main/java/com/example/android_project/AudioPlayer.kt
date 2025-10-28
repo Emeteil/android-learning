@@ -60,6 +60,7 @@ class AudioPlayer(private val context: Context)
     public fun PauseSong() { mediaPlayer?.pause() }
     public fun SeekTo(position: Int) { mediaPlayer?.seekTo(position) }
     public fun IsPlaying(): Boolean { return mediaPlayer?.isPlaying == true }
+    public fun IsMediaPlayerReady(): Boolean { return mediaPlayer != null }
 
     public fun ResumeSong()
     {
