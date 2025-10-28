@@ -20,25 +20,27 @@ class AudioPlayer(private val context: Context)
 
     public fun LoadMusicFromFolder(folderUri: Uri)
     {
-        musicList.clear()
-
+        var _musicList: MutableList<Uri> = mutableListOf()
         val folder = DocumentFile.fromTreeUri(context, folderUri)
         folder?.listFiles()?.forEach { file ->
             if (file.isFile && (file.name?.endsWith(".mp3") == true || file.name?.endsWith(".wav") == true || file.name?.endsWith(".m4a") == true))
             {
-                musicList.add(file.uri)
+                _musicList.add(file.uri)
             }
         }
 
-        musicList.shuffle()
-
-        if (!musicList.isEmpty())
+        if (_musicList.isEmpty())
         {
-            currentIndex = 0
-            PlaySong(currentIndex)
+            Toast.makeText(context, "В папке нет файлов с музыкой", Toast.LENGTH_SHORT).show()
             return
         }
-        Toast.makeText(context, "В папке нет файлов с музыкой", Toast.LENGTH_SHORT).show()
+
+        musicList.clear()
+        musicList = _musicList
+
+        musicList.shuffle()
+        currentIndex = 0
+        PlaySong(currentIndex)
     }
 
     public fun PlaySong(index: Int)
