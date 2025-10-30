@@ -93,7 +93,7 @@ class AudioPlayer(private val context: Context)
         val totalSeconds = ms / 1000
         val minutes = totalSeconds / 60
         val seconds = totalSeconds % 60
-        return minutes.toString() + ":" + (if (seconds < 10) "0" else "") + seconds.toString()
+        return "${minutes}:${if (seconds < 10) "0" else ""}${seconds}"
     }
 
     public fun ReleasePlayer()

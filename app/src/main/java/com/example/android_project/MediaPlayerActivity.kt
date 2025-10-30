@@ -2,6 +2,7 @@ package com.example.android_project
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.os.Bundle
 import android.provider.DocumentsContract
@@ -39,6 +40,8 @@ class MediaPlayerActivity : AppCompatActivity()
             insets
         }
 
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
         songTitle = findViewById(R.id.songTitle)
         artistName = findViewById(R.id.artistName)
         albumArt = findViewById(R.id.albumArt)
@@ -53,11 +56,13 @@ class MediaPlayerActivity : AppCompatActivity()
 
         audioPlayer = AudioPlayer(this)
 
-        audioPlayer.onSongChanged = { uri ->
-            // songTitle.text = GetFileName(uri)
-            // artistName.text = "—"
-            // buttonPlay.setImageResource(R.drawable.ic_pause)
+    }
 
+    override fun onResume()
+    {
+        super.onResume()
+
+        audioPlayer.onSongChanged = { uri ->
             val retriever = MediaMetadataRetriever()
             retriever.setDataSource(applicationContext, uri)
 
