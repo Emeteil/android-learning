@@ -8,6 +8,7 @@ import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Looper
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -22,7 +23,11 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.documentfile.provider.DocumentFile
 import androidx.preference.PreferenceManager
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 import org.json.JSONObject
 import java.io.IOException
 
@@ -92,6 +97,11 @@ class Location : AppCompatActivity()
         buttonGet.setOnClickListener { GetLastLocation() }
         buttonService.setOnClickListener { ToggleService() }
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+        }
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
             backgroundLocationPermissionLauncher.launch(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
@@ -113,25 +123,38 @@ class Location : AppCompatActivity()
             return
         }
 
-        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            if (location == null)
-                return@addOnSuccessListener
+        buttonGet.isEnabled = false
+        info.text = ""
+        buttonGet.text = "Подождите..."
 
-            val lat = location.latitude
-            val lon = location.longitude
-            val alt = location.altitude
-            val time = System.currentTimeMillis()
+        val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1).build()
 
-            info.text = "Lat: $lat\nLon: $lon\nAlt: $alt\nTime: $time"
+        fusedLocationClient.requestLocationUpdates(locationRequest, object : LocationCallback() {
+                override fun onLocationResult(locationResult: LocationResult) {
+                    locationResult.lastLocation?.let { location ->
+                        val lat = location.latitude
+                        val lon = location.longitude
+                        val alt = location.altitude
+                        val time = System.currentTimeMillis()
 
-            val data = JSONObject()
-            data.put("Latitude", lat)
-            data.put("Longitude", lon)
-            data.put("Altitude", alt)
-            data.put("Time", time)
+                        info.text = "Lat: $lat\nLon: $lon\nAlt: $alt\nTime: $time"
 
-            SaveJsonFile("locations", data)
-        }
+                        val data = JSONObject()
+                        data.put("Latitude", lat)
+                        data.put("Longitude", lon)
+                        data.put("Altitude", alt)
+                        data.put("Time", time)
+
+                        SaveJsonFile("locations", data)
+
+                        fusedLocationClient.removeLocationUpdates(this)
+                        buttonGet.text = "Получить данные"
+                        buttonGet.isEnabled = true
+                    }
+                }
+            },
+            Looper.getMainLooper()
+        )
     }
 
     private fun SaveJsonFile(fileName: String, jsonData: JSONObject): Boolean
