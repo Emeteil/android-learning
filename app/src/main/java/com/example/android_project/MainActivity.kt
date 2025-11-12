@@ -30,5 +30,8 @@ class MainActivity : AppCompatActivity()
         findViewById<CardView>(R.id.mediaPlayerCard).setOnClickListener({
             startActivity(Intent(this, MediaPlayerActivity::class.java))
         })
+        findViewById<CardView>(R.id.locationCard).setOnClickListener({
+            startActivity(Intent(this, Location::class.java))
+        })
     }
 }
