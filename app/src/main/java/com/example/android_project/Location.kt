@@ -8,7 +8,6 @@ import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.os.Looper
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -20,23 +19,15 @@ import androidx.core.content.edit
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.documentfile.provider.DocumentFile
 import androidx.preference.PreferenceManager
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.Priority
-import org.json.JSONObject
-import java.io.IOException
 
 class Location : AppCompatActivity()
 {
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var locationManager: LocationManager
     private lateinit var info: TextView
     private lateinit var buttonGet: Button
     private lateinit var buttonService: Button
+    private lateinit var buttonBack: Button
 
     private var folderUri: Uri? = null
     private var serviceEnabled = false
@@ -75,16 +66,18 @@ class Location : AppCompatActivity()
 
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         info = findViewById(R.id.infoText)
         buttonGet = findViewById(R.id.buttonGet)
         buttonService = findViewById(R.id.buttonService)
+        buttonBack = findViewById(R.id.buttonBack)
 
         val saved = PreferenceManager.getDefaultSharedPreferences(this)
             .getString("folder_uri", null)
 
         if (saved != null)
             folderUri = saved.toUri() else folderPicker.launch(null)
+
+        locationManager = LocationManager(this, folderUri)
     }
 
     override fun onResume()
@@ -94,8 +87,24 @@ class Location : AppCompatActivity()
         serviceEnabled = IsLocationServiceRunning()
         UpdateServiceButton()
 
-        buttonGet.setOnClickListener { GetLastLocation() }
+        buttonGet.setOnClickListener {
+            buttonGet.isEnabled = false
+            info.text = ""
+            buttonGet.text = "Подождите..."
+
+            val callbackEnd: (LocationData) -> Unit = { locationData ->
+                if (locationData.time != 0L)
+                    LocationManager.SaveJsonFile("locations", locationData.toJSONObject(), folderUri, this)
+
+                info.text = locationData.toString()
+                buttonGet.text = "Получить данные"
+                buttonGet.isEnabled = true
+            }
+
+            locationManager.GetLastLocation(callbackEnd)
+        }
         buttonService.setOnClickListener { ToggleService() }
+        buttonBack.setOnClickListener { finish() }
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
@@ -113,72 +122,6 @@ class Location : AppCompatActivity()
         val manager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         return manager.getRunningServices(Integer.MAX_VALUE)
             .any { it.service.className == LocationService::class.java.name }
-    }
-
-    private fun GetLastLocation()
-    {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
-            return
-        }
-
-        buttonGet.isEnabled = false
-        info.text = ""
-        buttonGet.text = "Подождите..."
-
-        val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1).build()
-
-        fusedLocationClient.requestLocationUpdates(locationRequest, object : LocationCallback() {
-                override fun onLocationResult(locationResult: LocationResult) {
-                    locationResult.lastLocation?.let { location ->
-                        val lat = location.latitude
-                        val lon = location.longitude
-                        val alt = location.altitude
-                        val time = System.currentTimeMillis()
-
-                        info.text = "Lat: $lat\nLon: $lon\nAlt: $alt\nTime: $time"
-
-                        val data = JSONObject()
-                        data.put("Latitude", lat)
-                        data.put("Longitude", lon)
-                        data.put("Altitude", alt)
-                        data.put("Time", time)
-
-                        SaveJsonFile("locations", data)
-
-                        fusedLocationClient.removeLocationUpdates(this)
-                        buttonGet.text = "Получить данные"
-                        buttonGet.isEnabled = true
-                    }
-                }
-            },
-            Looper.getMainLooper()
-        )
-    }
-
-    private fun SaveJsonFile(fileName: String, jsonData: JSONObject): Boolean
-    {
-        val dir = folderUri?.let { DocumentFile.fromTreeUri(this, it) } ?:
-        return false
-
-        if (!dir.canWrite())
-            return false
-
-        val jsonFileName = if (fileName.endsWith(".txt")) fileName else "$fileName.txt"
-
-        val file = dir.findFile(jsonFileName) ?: dir.createFile("text/plain",
-            jsonFileName.removeSuffix(".txt")) ?: return false
-
-        try
-        {
-            contentResolver.openOutputStream(file.uri, "wa")?.use { outputStream ->
-                outputStream.write(jsonData.toString().toByteArray())
-                outputStream.write("\n".toByteArray())
-            }
-            return true
-        }
-        catch (e: IOException) { return false }
     }
 
     private fun UpdateServiceButton()

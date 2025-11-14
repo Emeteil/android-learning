@@ -11,7 +11,6 @@ import android.os.IBinder
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
-import androidx.documentfile.provider.DocumentFile
 import androidx.preference.PreferenceManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -20,7 +19,6 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import org.json.JSONObject
-import java.io.IOException
 
 class LocationService : Service()
 {
@@ -40,7 +38,7 @@ class LocationService : Service()
                     put("Altitude", location.altitude)
                     put("Time", System.currentTimeMillis())
                 }
-                SaveJsonFile("locations", data)
+                LocationManager.SaveJsonFile("locations", data, folderUri, applicationContext)
             }
         }
     }
@@ -102,29 +100,5 @@ class LocationService : Service()
             locationCallback,
             null
         )
-    }
-
-    private fun SaveJsonFile(fileName: String, jsonData: JSONObject): Boolean
-    {
-        val dir = folderUri?.let { DocumentFile.fromTreeUri(this, it) } ?:
-        return false
-
-        if (!dir.canWrite())
-            return false
-
-        val jsonFileName = if (fileName.endsWith(".txt")) fileName else "$fileName.txt"
-
-        val file = dir.findFile(jsonFileName) ?: dir.createFile("text/plain",
-            jsonFileName.removeSuffix(".txt")) ?: return false
-
-        try
-        {
-            contentResolver.openOutputStream(file.uri, "wa")?.use { outputStream ->
-                outputStream.write(jsonData.toString().toByteArray())
-                outputStream.write("\n".toByteArray())
-            }
-            return true
-        }
-        catch (e: IOException) { return false }
     }
 }
