@@ -1,4 +1,4 @@
-package com.example.android_project
+package com.example.android_project.Calculator
 import kotlin.math.*
 
 data class Operator(val priority: Int, val operation: (Double, Double) -> Double)

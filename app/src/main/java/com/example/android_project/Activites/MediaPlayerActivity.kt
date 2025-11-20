@@ -1,17 +1,23 @@
-package com.example.android_project
+package com.example.android_project.Activites
 
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.graphics.BitmapFactory
+import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Bundle
 import android.provider.DocumentsContract
-import android.media.MediaMetadataRetriever
-import android.widget.*
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.SeekBar
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.android_project.AudioPlayer.AudioPlayer
+import com.example.android_project.R
 
 class MediaPlayerActivity : AppCompatActivity()
 {
@@ -70,7 +76,7 @@ class MediaPlayerActivity : AppCompatActivity()
             val artist = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)
 
             val albumArtBitmap = retriever.embeddedPicture?.let {
-                android.graphics.BitmapFactory.decodeByteArray(it, 0, it.size)
+                BitmapFactory.decodeByteArray(it, 0, it.size)
             }
 
             songTitle.text = title ?: GetFileName(uri).substringAfter("-")
@@ -156,7 +162,7 @@ class MediaPlayerActivity : AppCompatActivity()
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_FOLDER_REQUEST_CODE && resultCode == Activity.RESULT_OK)
+        if (requestCode == PICK_FOLDER_REQUEST_CODE && resultCode == RESULT_OK)
         {
             val uri = data?.data ?: return
             contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)

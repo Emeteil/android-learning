@@ -1,4 +1,4 @@
-package com.example.android_project
+package com.example.android_project.Location
 
 import android.Manifest
 import android.app.NotificationChannel

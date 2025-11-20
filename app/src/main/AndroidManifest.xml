@@ -18,19 +18,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Androidproject" >
         <service
-            android:name=".LocationService"
+            android:name=".Location.LocationService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="location" />
 
         <activity
-            android:name=".Location"
+            android:name=".Activites.LocationActivity"
             android:exported="false" />
         <activity
-            android:name=".MediaPlayerActivity"
+            android:name=".Activites.MediaPlayerActivity"
             android:exported="false" />
         <activity
-            android:name=".CalculatorActivity"
+            android:name=".Activites.CalculatorActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

@@ -1,8 +1,7 @@
-package com.example.android_project
+package com.example.android_project.Activites
 
 import android.Manifest
 import android.app.ActivityManager
-import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
@@ -20,8 +19,12 @@ import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.preference.PreferenceManager
+import com.example.android_project.Location.LocationData
+import com.example.android_project.Location.LocationManager
+import com.example.android_project.Location.LocationService
+import com.example.android_project.R
 
-class Location : AppCompatActivity()
+class LocationActivity : AppCompatActivity()
 {
     private lateinit var locationManager: LocationManager
     private lateinit var info: TextView
@@ -46,7 +49,8 @@ class Location : AppCompatActivity()
         folderUri = uri
     }
 
-    private val backgroundLocationPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+    private val backgroundLocationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()) { granted ->
         if (granted)
             return@registerForActivityResult
 
@@ -94,7 +98,7 @@ class Location : AppCompatActivity()
 
             val callbackEnd: (LocationData) -> Unit = { locationData ->
                 if (locationData.time != 0L)
-                    LocationManager.SaveJsonFile("locations", locationData.toJSONObject(), folderUri, this)
+                    LocationManager.Companion.SaveJsonFile("locations", locationData.toJSONObject(), folderUri, this)
 
                 info.text = locationData.toString()
                 buttonGet.text = "Получить данные"
@@ -119,7 +123,7 @@ class Location : AppCompatActivity()
 
     private fun IsLocationServiceRunning(): Boolean
     {
-        val manager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val manager = getSystemService(ACTIVITY_SERVICE) as ActivityManager
         return manager.getRunningServices(Integer.MAX_VALUE)
             .any { it.service.className == LocationService::class.java.name }
     }

@@ -8,6 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.android_project.Activites.CalculatorActivity
+import com.example.android_project.Activites.LocationActivity
+import com.example.android_project.Activites.MediaPlayerActivity
 
 class MainActivity : AppCompatActivity()
 {
@@ -31,7 +34,7 @@ class MainActivity : AppCompatActivity()
             startActivity(Intent(this, MediaPlayerActivity::class.java))
         })
         findViewById<CardView>(R.id.locationCard).setOnClickListener({
-            startActivity(Intent(this, Location::class.java))
+            startActivity(Intent(this, LocationActivity::class.java))
         })
     }
 }
