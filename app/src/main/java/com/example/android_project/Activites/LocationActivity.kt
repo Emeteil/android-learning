@@ -19,9 +19,9 @@ import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.preference.PreferenceManager
-import com.example.android_project.Location.LocationData
+import com.example.android_project.DataClasses.LocationData
 import com.example.android_project.Location.LocationManager
-import com.example.android_project.Location.LocationService
+import com.example.android_project.Services.LocationService
 import com.example.android_project.R
 
 class LocationActivity : AppCompatActivity()

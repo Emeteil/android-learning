@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Looper
 import androidx.core.app.ActivityCompat
 import androidx.documentfile.provider.DocumentFile
+import com.example.android_project.DataClasses.LocationData
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -16,25 +17,6 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import org.json.JSONObject
 import java.io.IOException
-
-data class LocationData(val latitude: Double, val longitude: Double, val altitude: Double, val time: Long)
-{
-    fun toJSONObject(): JSONObject
-    {
-        val data = JSONObject()
-        data.put("Latitude", latitude)
-        data.put("Longitude", longitude)
-        data.put("Altitude", altitude)
-        data.put("Time", time)
-
-        return data
-    }
-
-    override fun toString(): String
-    {
-        return "Lat: $latitude\nLon: $longitude\nAlt: $altitude\nTime: $time"
-    }
-}
 
 class LocationManager(private val context: Context, private var folderUri: Uri?)
 {

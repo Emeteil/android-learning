@@ -1,4 +1,4 @@
-package com.example.android_project.Location
+package com.example.android_project.Services
 
 import android.Manifest
 import android.app.NotificationChannel
@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.preference.PreferenceManager
+import com.example.android_project.Location.LocationManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -38,7 +39,7 @@ class LocationService : Service()
                     put("Altitude", location.altitude)
                     put("Time", System.currentTimeMillis())
                 }
-                LocationManager.SaveJsonFile("locations", data, folderUri, applicationContext)
+                LocationManager.Companion.SaveJsonFile("locations", data, folderUri, applicationContext)
             }
         }
     }

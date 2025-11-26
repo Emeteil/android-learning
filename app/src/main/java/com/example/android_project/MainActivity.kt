@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.android_project.Activites.CalculatorActivity
 import com.example.android_project.Activites.LocationActivity
 import com.example.android_project.Activites.MediaPlayerActivity
+import com.example.android_project.Activites.MobileNetworkActivity
 
 class MainActivity : AppCompatActivity()
 {
@@ -35,6 +36,9 @@ class MainActivity : AppCompatActivity()
         })
         findViewById<CardView>(R.id.locationCard).setOnClickListener({
             startActivity(Intent(this, LocationActivity::class.java))
+        })
+        findViewById<CardView>(R.id.mobileNetworkCard).setOnClickListener({
+            startActivity(Intent(this, MobileNetworkActivity::class.java))
         })
     }
 }
