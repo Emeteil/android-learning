@@ -9,6 +9,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.android_project.Activites.CalculatorActivity
+import com.example.android_project.Activites.DataSenderActivity
 import com.example.android_project.Activites.LocationActivity
 import com.example.android_project.Activites.MediaPlayerActivity
 import com.example.android_project.Activites.MobileNetworkActivity
@@ -39,6 +40,9 @@ class MainActivity : AppCompatActivity()
         })
         findViewById<CardView>(R.id.mobileNetworkCard).setOnClickListener({
             startActivity(Intent(this, MobileNetworkActivity::class.java))
+        })
+        findViewById<CardView>(R.id.dataSenderCard).setOnClickListener({
+            startActivity(Intent(this, DataSenderActivity::class.java))
         })
     }
 }
