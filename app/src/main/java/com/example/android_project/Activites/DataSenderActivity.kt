@@ -25,7 +25,8 @@ class DataSenderActivity : AppCompatActivity()
     private lateinit var buttonBack: Button
 
     private lateinit var apiClient: ApiClient
-    private var serviceRunning = false
+    private var serviceRunning: Boolean = false
+        get() { return DataSenderService.IsServiceRunning(this) }
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -58,7 +59,6 @@ class DataSenderActivity : AppCompatActivity()
     {
         super.onResume()
 
-        serviceRunning = DataSenderService.IsServiceRunning(this)
         UpdateSyncButton()
 
         buttonAuth.setOnClickListener { HandleAuth() }
@@ -115,7 +115,6 @@ class DataSenderActivity : AppCompatActivity()
             if (DataSenderService.IsServiceRunning(this))
             {
                 DataSenderService.StopService(this)
-                serviceRunning = false
                 UpdateSyncButton()
             }
 
@@ -165,7 +164,6 @@ class DataSenderActivity : AppCompatActivity()
         if (serviceRunning)
         {
             DataSenderService.StopService(this)
-            serviceRunning = false
         }
         else
         {
@@ -180,7 +178,6 @@ class DataSenderActivity : AppCompatActivity()
                     if (success)
                     {
                         DataSenderService.StartService(this)
-                        serviceRunning = true
                         infoText.text = "Отправка данных запущена"
                     }
                     else

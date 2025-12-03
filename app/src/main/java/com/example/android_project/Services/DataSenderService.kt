@@ -195,7 +195,7 @@ class DataSenderService : Service(), WebSocketClient.ConnectionListener
         {
             val intent = Intent(context, DataSenderService::class.java)
             intent.action = "stop"
-            context.startService(intent)
+            context.stopService(intent)
         }
 
         fun IsServiceRunning(context: Context): Boolean
