@@ -63,7 +63,7 @@ class LocationService : Service()
         startForeground(1, notification)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        request = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000).build()
+        request = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1500).build()
 
         val saved = PreferenceManager.getDefaultSharedPreferences(this)
             .getString("folder_uri", null)

@@ -13,6 +13,10 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.android_project.Network.ApiClient
 import com.example.android_project.R
 import com.example.android_project.Services.DataSenderService
+import android.os.Build
+import androidx.core.content.ContextCompat
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
 
 class DataSenderActivity : AppCompatActivity()
 {
@@ -161,6 +165,14 @@ class DataSenderActivity : AppCompatActivity()
 
     private fun ToggleSync()
     {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+        {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED)
+            {
+                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 101)
+            }
+        }
+
         if (serviceRunning)
         {
             DataSenderService.StopService(this)

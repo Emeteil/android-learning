@@ -36,12 +36,12 @@ class WebSocketClient(private val context: Context)
     fun Connect()
     {
         val serverAddress = apiClient.GetServerAddress() ?: run {
-            listener?.OnError("Сервер не настроен")
+            listener?.OnError("config_error")
             return
         }
 
         val token = apiClient.GetToken() ?: run {
-            listener?.OnError("Токен не найден")
+            listener?.OnError("token_expired")
             return
         }
 
@@ -64,13 +64,27 @@ class WebSocketClient(private val context: Context)
             override fun onClosed(webSocket: WebSocket, code: Int, reason: String)
             {
                 isConnected = false
-                listener?.OnDisconnected()
+                if (code == 1008 || code == 401 || code == 403 || reason.contains("expired", true) || reason.contains("unauthorized", true))
+                {
+                    listener?.OnError("token_expired")
+                }
+                else
+                {
+                    listener?.OnDisconnected()
+                }
             }
 
             override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?)
             {
                 isConnected = false
-                listener?.OnError(t.message ?: "")
+                if (response?.code == 401 || response?.code == 403 || t.message?.contains("401") == true || t.message?.contains("403") == true)
+                {
+                    listener?.OnError("token_expired")
+                }
+                else
+                {
+                    listener?.OnError(t.message ?: "")
+                }
             }
         })
     }
@@ -84,18 +98,18 @@ class WebSocketClient(private val context: Context)
 
     fun IsConnected(): Boolean { return isConnected }
 
-    fun SendData(mobileNetworkDataList: MobileNetworkDataList, locationData: LocationData)
+    fun SendData(mobileNetworkDataList: MobileNetworkDataList, locationData: LocationData): Boolean
     {
         if (!isConnected)
         {
             listener?.OnError("isConnected == false")
-            return
+            return false
         }
 
         val jsonData = JSONObject()
         jsonData.put("mobile_network_data_list", mobileNetworkDataList.ToJSONObject())
         jsonData.put("location_data", locationData.toJSONObject())
 
-        webSocket?.send(jsonData.toString())
+        return webSocket?.send(jsonData.toString()) ?: false
     }
 }
